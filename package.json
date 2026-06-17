@@ -16,12 +16,19 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@opennextjs/cloudflare": "1.19.11",
+    "@tailwindcss/postcss": "^4.1.4",
+    "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "dotenv": "^17.4.2",
-    "pg": "^8.21.0",
+    "tailwindcss": "^4.1.4",
+    "tsx": "^4.19.4",
     "typescript": "^5",
-    "xlsx": "^0.18.5"
+    "wrangler": "4.99.0"
+  },
+  "overrides": {
+    "@aws-sdk/core": "3.974.21",
+    "@aws-sdk/client-s3": "3.974.0",
+    "@aws-sdk/s3-request-presigner": "3.974.0"
   }
 }

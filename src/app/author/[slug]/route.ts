@@ -1,12 +1,7 @@
-import { readFile } from "fs/promises";
-import path from "path";
 import { getAuthorBySlug, getAllAuthors, getAllArticles } from "../../../../lib/db";
+import { HEADER_TEMPLATE, FOOTER_TEMPLATE } from "../../../../lib/templates";
 
 export const dynamic = "force-dynamic";
-
-async function loadTemplate(name: string): Promise<string> {
-  return readFile(path.join(process.cwd(), "templates", name), "utf-8");
-}
 
 function escapeHtml(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
@@ -17,11 +12,10 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const [header, footer] = await Promise.all([loadTemplate("header.html"), loadTemplate("footer.html")]);
 
   if (slug === "team") {
     const authors = await getAllAuthors();
-    const renderedHeader = header
+    const renderedHeader = HEADER_TEMPLATE
       .replace("{{TITLE}}", "Our Team — Bean Brew Digest")
       .replace("{{DESCRIPTION}}", "Meet the coffee experts, roasters, and writers behind Bean Brew Digest.")
       .replace("{{CANONICAL}}", "https://beanbrewdigest.com/author/team")
@@ -35,7 +29,7 @@ export async function GET(
       return `<a href="/author/${escapeHtml(a.slug ?? "")}" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;text-align:center;border:1px solid #e8dfd6;border-radius:12px;padding:24px;transition:box-shadow 0.2s;">${img}<h3 style="margin:0 0 8px;font-size:1.1rem;">${name}</h3><p style="margin:0;color:#6b5e53;font-size:0.9rem;">${desc}</p></a>`;
     }).join("");
 
-    const html = renderedHeader + `<main class="article-wrap" style="max-width:1200px;"><h1>Our Team</h1><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;margin-top:32px;">${cards}</div></main>` + footer;
+    const html = renderedHeader + `<main class="article-wrap" style="max-width:1200px;"><h1>Our Team</h1><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;margin-top:32px;">${cards}</div></main>` + FOOTER_TEMPLATE;
     return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
   }
 
@@ -46,7 +40,7 @@ export async function GET(
   const articles = allArticles.filter(a => a.author?.toLowerCase().replace(/\s+/g, "-") === slug);
 
   const name = author.name ?? "";
-  const renderedHeader = header
+  const renderedHeader = HEADER_TEMPLATE
     .replace("{{TITLE}}", escapeHtml(`${name} — Bean Brew Digest`))
     .replace("{{DESCRIPTION}}", escapeHtml(author.description ?? `Articles by ${name}`))
     .replace("{{CANONICAL}}", `https://beanbrewdigest.com/author/${slug}`)
@@ -60,7 +54,7 @@ export async function GET(
     return `<a href="${href}" class="a-card">${img}<div class="a-card-body"><h3>${t}</h3></div></a>`;
   }).join("");
 
-  const html = renderedHeader + `<main class="article-wrap" style="max-width:1200px;"><div style="text-align:center;margin-bottom:40px;">${imgBlock}<h1>${escapeHtml(name)}</h1>${author.description ? `<p style="color:#6b5e53;max-width:600px;margin:12px auto 0;">${escapeHtml(author.description)}</p>` : ""}</div><div class="articles-grid">${cards}</div></main>` + footer;
+  const html = renderedHeader + `<main class="article-wrap" style="max-width:1200px;"><div style="text-align:center;margin-bottom:40px;">${imgBlock}<h1>${escapeHtml(name)}</h1>${author.description ? `<p style="color:#6b5e53;max-width:600px;margin:12px auto 0;">${escapeHtml(author.description)}</p>` : ""}</div><div class="articles-grid">${cards}</div></main>` + FOOTER_TEMPLATE;
 
   return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
 }

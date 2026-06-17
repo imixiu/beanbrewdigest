@@ -1,14 +1,9 @@
-import { readFile } from "fs/promises";
-import path from "path";
 import { getArticlesByTypePaged } from "../../../lib/db";
 import { TOPICS, VALID_TYPES } from "../../../lib/topics";
+import { HEADER_TEMPLATE, FOOTER_TEMPLATE } from "../../../lib/templates";
 
 export const dynamic = "force-dynamic";
 const PAGE_SIZE = 100;
-
-async function loadTemplate(name: string): Promise<string> {
-  return readFile(path.join(process.cwd(), "templates", name), "utf-8");
-}
 
 function escapeHtml(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
@@ -28,13 +23,11 @@ export async function GET(
   const { articles, total } = await getArticlesByTypePaged(rawType, page, PAGE_SIZE);
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
-  const [header, footer] = await Promise.all([loadTemplate("header.html"), loadTemplate("footer.html")]);
-
   const topicInfo = TOPICS[rawType];
   const title = topicInfo?.label ?? rawType;
   const description = topicInfo?.description ?? "";
 
-  const renderedHeader = header
+  const renderedHeader = HEADER_TEMPLATE
     .replace("{{TITLE}}", escapeHtml(`${title} — Bean Brew Digest`))
     .replace("{{DESCRIPTION}}", escapeHtml(description))
     .replace("{{CANONICAL}}", `https://beanbrewdigest.com/${rawType}`)
@@ -61,7 +54,7 @@ export async function GET(
   const html = renderedHeader + `<main class="article-wrap" style="max-width:1200px;">
     <h1>${escapeHtml(title)}</h1>
     <p style="color:#6b5e53;margin-bottom:32px;">${escapeHtml(description)}</p>
-    <div class="articles-grid">${cards}</div>${pagination}</main>` + footer;
+    <div class="articles-grid">${cards}</div>${pagination}</main>` + FOOTER_TEMPLATE;
 
   return new Response(html, {
     headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, s-maxage=3600" },

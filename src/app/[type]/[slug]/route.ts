@@ -1,13 +1,8 @@
-import { readFile } from "fs/promises";
-import path from "path";
 import { getArticleBySlug, getRelatedArticles } from "../../../../lib/db";
 import { VALID_TYPES } from "../../../../lib/topics";
+import { HEADER_TEMPLATE, FOOTER_TEMPLATE } from "../../../../lib/templates";
 
 export const dynamic = "force-dynamic";
-
-async function loadTemplate(name: string): Promise<string> {
-  return readFile(path.join(process.cwd(), "templates", name), "utf-8");
-}
 
 function escapeHtml(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
@@ -23,10 +18,7 @@ export async function GET(
   const article = await getArticleBySlug(slug);
   if (!article) return new Response("Article not found", { status: 404 });
 
-  const [header, footer, related] = await Promise.all([
-    loadTemplate("header.html"), loadTemplate("footer.html"),
-    getRelatedArticles(article.id, article.type ?? type),
-  ]);
+  const related = await getRelatedArticles(article.id, article.type ?? type);
 
   const title = article.title ?? "";
   const description = article.description ?? "";
@@ -48,7 +40,7 @@ export async function GET(
     ogTags.push(`<meta name="twitter:image" content="${escapeHtml(imageUrl)}">`);
   }
 
-  const renderedHeader = header
+  const renderedHeader = HEADER_TEMPLATE
     .replace("{{TITLE}}", escapeHtml(title))
     .replace("{{DESCRIPTION}}", escapeHtml(description))
     .replace("{{CANONICAL}}", articleUrl)
@@ -87,7 +79,7 @@ export async function GET(
     }).join("")}</div></div>`;
   }
 
-  const html = renderedHeader + `<main class="article-wrap">${breadcrumb}${coverBlock}<h1>${escapeHtml(title)}</h1>${metaBlock}${article.body ?? ""}${relatedHtml}<script type="application/ld+json">${jsonLd}</script></main>` + footer;
+  const html = renderedHeader + `<main class="article-wrap">${breadcrumb}${coverBlock}<h1>${escapeHtml(title)}</h1>${metaBlock}${article.body ?? ""}${relatedHtml}<script type="application/ld+json">${jsonLd}</script></main>` + FOOTER_TEMPLATE;
 
   return new Response(html, {
     headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, s-maxage=31536000" },
