@@ -193,6 +193,7 @@ export const INDEX_HTML = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bean Brew Digest — Specialty Coffee Knowledge, Brewed Deep</title>
 <meta name="description" content="Your definitive guide to specialty coffee — brewing methods, bean origins, roasting craft, café culture, and expert gear reviews.">
+<meta name="msvalidate.01" content="C396E9907374E29FB46754412E4E3FB7">
 <meta property="og:title" content="Bean Brew Digest — Specialty Coffee Knowledge, Brewed Deep">
 <meta property="og:description" content="Your definitive guide to specialty coffee — brewing methods, bean origins, roasting craft, café culture, and expert gear reviews.">
 <meta property="og:type" content="website">
