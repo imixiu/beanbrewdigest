@@ -37,7 +37,7 @@ export async function GET(
   const renderedHeader = header
     .replace("{{TITLE}}", escapeHtml(`${title} — Bean Brew Digest`))
     .replace("{{DESCRIPTION}}", escapeHtml(description))
-    .replace("{{CANONICAL}}", `https://tabletopcuration.com/${rawType}`)
+    .replace("{{CANONICAL}}", `https://beanbrewdigest.com/${rawType}`)
     .replace("{{OG_META}}", "");
 
   let cards = "";

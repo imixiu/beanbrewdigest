@@ -24,7 +24,7 @@ export async function GET(
     const renderedHeader = header
       .replace("{{TITLE}}", "Our Team — Bean Brew Digest")
       .replace("{{DESCRIPTION}}", "Meet the coffee experts, roasters, and writers behind Bean Brew Digest.")
-      .replace("{{CANONICAL}}", "https://tabletopcuration.com/author/team")
+      .replace("{{CANONICAL}}", "https://beanbrewdigest.com/author/team")
       .replace("{{OG_META}}", "");
 
     const members = authors.filter(a => a.slug !== "team");
@@ -49,7 +49,7 @@ export async function GET(
   const renderedHeader = header
     .replace("{{TITLE}}", escapeHtml(`${name} — Bean Brew Digest`))
     .replace("{{DESCRIPTION}}", escapeHtml(author.description ?? `Articles by ${name}`))
-    .replace("{{CANONICAL}}", `https://tabletopcuration.com/author/${slug}`)
+    .replace("{{CANONICAL}}", `https://beanbrewdigest.com/author/${slug}`)
     .replace("{{OG_META}}", "");
 
   const imgBlock = author.img ? `<img src="${escapeHtml(author.img)}" alt="${escapeHtml(name)}" style="width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:16px;">` : "";

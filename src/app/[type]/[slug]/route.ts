@@ -30,7 +30,7 @@ export async function GET(
 
   const title = article.title ?? "";
   const description = article.description ?? "";
-  const articleUrl = `https://tabletopcuration.com/${type}/${slug}`;
+  const articleUrl = `https://beanbrewdigest.com/${type}/${slug}`;
   const imageUrl = article.img ?? "";
 
   const ogTags = [
@@ -69,7 +69,7 @@ export async function GET(
     "@context": "https://schema.org", "@type": "Article",
     headline: title, description, url: articleUrl,
     ...(imageUrl ? { image: imageUrl } : {}),
-    publisher: { "@type": "Organization", name: "Bean Brew Digest", url: "https://tabletopcuration.com" },
+    publisher: { "@type": "Organization", name: "Bean Brew Digest", url: "https://beanbrewdigest.com" },
     ...(author ? { author: { "@type": "Person", name: author } } : {}),
     ...(pubTime ? { datePublished: new Date(pubTime).toISOString().split("T")[0] } : {}),
   });
