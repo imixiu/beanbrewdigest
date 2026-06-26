@@ -120,7 +120,6 @@ ul{list-style:none;}
 <link rel="canonical" href="{{CANONICAL}}">
 {{OG_META}}
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
-<script defer src="/_vercel/insights/script.js" data-speed="4"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-95PY8PSZ0Y"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-95PY8PSZ0Y');</script>
 </head>
@@ -207,7 +206,6 @@ export const INDEX_HTML = `<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Bean Brew Digest","url":"https://beanbrewdigest.com","description":"Your definitive guide to specialty coffee","publisher":{"@type":"Organization","name":"Bean Brew Digest","url":"https://beanbrewdigest.com"}}</script>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
-<script defer src="/_vercel/insights/script.js" data-speed="4"></script>
 <style>
 :root{
   --espresso:#2c1810;
@@ -373,7 +371,6 @@ ul{list-style:none;}
 }
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
-<script defer src="/_vercel/insights/script.js" data-speed="4"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-95PY8PSZ0Y"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-95PY8PSZ0Y');</script>
 </head>
@@ -576,7 +573,6 @@ ul{list-style:none;}
         <ul>
           <li><a href="/author/team">About Us</a></li>
           <li><a href="/">Contact</a></li>
-          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
         </ul>
       </div>
     </div>

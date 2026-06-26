@@ -15,7 +15,7 @@ export async function GET(
 ) {
   const { type: rawType } = await params;
   if (!VALID_TYPES.has(rawType)) {
-    return new Response("Not Found", { status: 404 });
+    return new Response("Not Found", { status: 404, headers: { "Cache-Control": "no-store" } });
   }
 
   const url = new URL(_request.url);
@@ -57,6 +57,6 @@ export async function GET(
     <div class="articles-grid">${cards}</div>${pagination}</main>` + FOOTER_TEMPLATE;
 
   return new Response(html, {
-    headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, s-maxage=3600" },
+    headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, max-age=31536000, s-maxage=31536000" },
   });
 }

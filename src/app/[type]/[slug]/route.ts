@@ -13,10 +13,10 @@ export async function GET(
   { params }: { params: Promise<{ type: string; slug: string }> }
 ) {
   const { type, slug } = await params;
-  if (!VALID_TYPES.has(type)) return new Response("Not Found", { status: 404 });
+  if (!VALID_TYPES.has(type)) return new Response("Not Found", { status: 404, headers: { "Cache-Control": "no-store" } });
 
   const article = await getArticleBySlug(slug);
-  if (!article) return new Response("Article not found", { status: 404 });
+  if (!article) return new Response("Article not found", { status: 404, headers: { "Cache-Control": "no-store" } });
 
   const related = await getRelatedArticles(article.id, article.type ?? type);
 
@@ -82,6 +82,6 @@ export async function GET(
   const html = renderedHeader + `<main class="article-wrap">${breadcrumb}${coverBlock}<h1>${escapeHtml(title)}</h1>${metaBlock}${article.body ?? ""}${relatedHtml}<script type="application/ld+json">${jsonLd}</script></main>` + FOOTER_TEMPLATE;
 
   return new Response(html, {
-    headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, s-maxage=31536000" },
+    headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "public, max-age=31536000, s-maxage=31536000" },
   });
 }
